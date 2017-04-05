@@ -1,6 +1,7 @@
 #!/bin/bash
 
-#function that take parameter (room_name, visitor_id,threshold) and output 
+#function that take parameters (room_name, visit_id, threshold)
+#output - only if the visit_id is in a .chg file and print the id and if lose or win
 function files {
 	for file in `ls ${1}/challenges`; do
 		if [[ $file==[*].chg  ]]; then
@@ -17,7 +18,8 @@ function files {
 	done
 }
 
-#funcion that take (room_name, visitor_name, threshold), find all the visits if of the visitor_name and use files function
+#funcion that take (room_name, visitor_name, threshold), 
+#find all the visits_id of the visitor_name and use "files" function on each one.
 function take_all_visits {
 	for id in `grep -w ${2} ${1}/visitors.txt | cut -d" " -f2`; do
 		files ${1} $id ${3}
