@@ -1,0 +1,11 @@
+ #!/bin/bash
+
+myfile=${1}/visitors.txt
+
+if (( $# == 2 )); then
+        sort -rk2 $myfile | sort -sk3 | uniq -2 | sort -rk2 | cut -d" " -f3 | head -$2
+fi
+if (( $# == 1 )); then
+        sort -rk2 $myfile | sort -sk3 | uniq -2 | sort -rk2 | cut -d" " -f3
+fi
+
