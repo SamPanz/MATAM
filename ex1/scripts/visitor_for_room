@@ -1,0 +1,6 @@
+#!/bin/bash
+
+myfile=${1}/visitors.txt
+
+
+grep -w $2 $myfile | cut -d" " -f1-2 | sort -nrk2
