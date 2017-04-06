@@ -10,7 +10,6 @@
       			lost=0
       			if [[${overall}<${2}]]; then 
             				((won++))
-      			fi
       			else 
             				((lost++)) 
 		    	fi
