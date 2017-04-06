@@ -8,7 +8,7 @@
       hisName=`grep $visit_id ${1}/visitors.txt | cut -d " " -f2`
       won =0
       lost=0
-      if ((overall<${2}); then 
+      if [[${overall}<${2}]]; then 
             ((won++))
       fi
       else 
