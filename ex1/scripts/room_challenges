@@ -4,15 +4,16 @@
 	for file in `ls ${1}/challenges`; do
 		if [[ $file==[*].chg  ]]; then
 			visit_id_challenge=`grep visit ${1}/challenges/$file | cut -d" " -f3`
-      overall=`grep overall ${1}/challenges/$file | cut -d" " -f3`
-      hisName=`grep $visit_id ${1}/visitors.txt | cut -d " " -f2`
-      won =0
-      lost=0
-      if [[${overall}<${2}]]; then 
-            ((won++))
-      fi
-      else 
-            ((lost++)) 
-    echo $hisName $won $lost
-    fi
-  done
+      			overall=`grep overall ${1}/challenges/$file | cut -d" " -f3`
+      			hisName=`grep $visit_id ${1}/visitors.txt | cut -d " " -f2`
+      			won =0
+      			lost=0
+      			if [[${overall}<${2}]]; then 
+            				((won++))
+      			fi
+      			else 
+            				((lost++)) 
+		    	fi
+			echo $hisName $won $lost
+		fi
+  	done
