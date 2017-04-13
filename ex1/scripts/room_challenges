@@ -1,18 +1,32 @@
 #!/bin/bash
-#${1}=roomname
-#${2}=threshold
-	for file in `ls ${1}/challenges`; do
-		if [[ $file==[*].chg  ]]; then
-			visit_id_challenge=`grep visit ${1}/challenges/$file | cut -d" " -f3`
-      			overall=`grep overall ${1}/challenges/$file | cut -d" " -f3`
-      			hisName=`cut -d" " -f2,3 ${1}/visitors.txt | grep $visit_id_challenge | cut -d" " -f2`
-      			won=0
-      			lost=0
-      			if [[ ${overall} < ${2} ]]; then
-            				let won++
-      			else 
-            				let lost++ 
-		    	fi
-			echo ${hisName} ${won} ${lost}
+
+#params (room_name, threshold)
+#This function take room name and threshold for input, and output the neccesery data. each visitor that took challenges with amount of wins and loses.
+#This function output all the necesery data not ordered!
+function all_data_not_ordered {
+
+	all_names=( `cut -d" " -f3 ${1}/visitors.txt | sort | uniq` )
+	
+	for x in ${all_names[*]}; do
+		winners=( `./visitor_challenges ${1} $x ${2} | cut -d" " -f2 | grep Winner | uniq -c` )
+		loser=( `./visitor_challenges ${1} $x ${2} | cut -d" " -f2 | grep Loser | uniq -c` )
+	
+		if [[ ${winners[0]} == "" && ${loser[0]} == "" ]]; then
+			continue
+		fi	
+
+		if [[ ${winners[0]} == "" ]]; then
+			winners[0]=0
 		fi
-  	done
+		
+		if [[ ${loser[0]} == "" ]]; then
+			loser[0]=0
+		fi
+
+		summer=$(( ${winners[0]} + ${loser[0]} ))
+		echo ${x} ${winners[0]} ${loser[0]} ${summer}	
+	done
+}
+
+all_data_not_ordered ${1} ${2} | sort | sort -srk4 | cut -d" " -f1-3
+
