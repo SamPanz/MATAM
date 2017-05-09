@@ -7,6 +7,7 @@
 #include "visitor_room.h"
 
 /* IMPLEMENT HERE ALL WHAT IS NEEDED */
+#define WORD_LEN 51
 static char* string_duplicate(const char* str) {
 	char* copy = malloc(strlen(str) + 1);
 	return copy ? strcpy(copy, str) : NULL;
@@ -219,7 +220,7 @@ Result visitor_enter_room(ChallengeRoom *room, Visitor *visitor, Level level,
 		room->challenges[flag_iterator].start_time = start_time;
 		visitor->current_challenge = &(room->challenges[flag_iterator]);
 
-		visitor->room_name = malloc(sizeof(*(visitor->room_name)));
+		visitor->room_name = malloc(sizeof(char)*WORD_LEN);
 		if (!(visitor->room_name)){
 			return MEMORY_PROBLEM;
 		}
@@ -228,6 +229,7 @@ Result visitor_enter_room(ChallengeRoom *room, Visitor *visitor, Level level,
 		if (*(visitor->room_name) == NULL){
 			return MEMORY_PROBLEM;
 		}
+		inc_num_visits(visitor->current_challenge->challenge);
 		return OK;
 	}
 
@@ -247,11 +249,13 @@ Result visitor_quit_room(Visitor *visitor, int quit_time) {
 	int time_in_challenge = quit_time - visitor->current_challenge->start_time;
 	set_best_time_of_challenge(visitor->current_challenge->challenge,
 			time_in_challenge);
-	inc_num_visits(visitor->current_challenge->challenge);
 
+	Challenge *ch = visitor->current_challenge->challenge;
 	reset_challenge_activity(visitor->current_challenge);
+	init_challenge_activity(visitor->current_challenge, ch);
 	visitor->current_challenge = NULL;
 	free(visitor->room_name);
+	visitor->room_name = NULL;
 	return OK;
 
 }

@@ -9,7 +9,7 @@
    if (!(test_condition)) {printf("\nTEST %s FAILED", test_number); } \
    else printf("\nTEST %s OK", test_number);
 
-int main(int argc, char **argv) {
+int mais(int argc, char **argv) {
 
 	setvbuf(stdout, NULL, _IONBF, 0);
 	setvbuf(stderr, NULL, _IONBF, 0);

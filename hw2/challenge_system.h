@@ -10,7 +10,6 @@ typedef struct SChallengeRoomSystem
 
 } ChallengeRoomSystem;
 
-
 Result create_system(char *init_file, ChallengeRoomSystem **sys);
 
 
